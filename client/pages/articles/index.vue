@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Wiki1</h1>
+    <h1>Article1</h1>
   </div>
 </template>
 

@@ -1,14 +1,7 @@
-// module.exports = {
-//   database: "mongodb://localhost:27017/",
-//   secret: "password"
-// };
-
-// db.js
-
 // mongodb driver
 const MongoClient = require("mongodb").MongoClient;
 
-const dbConnectionUrl = "mongodb+srv://mironez:KncjtY81fHenQFMH@cluster0.ezbft.gcp.mongodb.net/sample_airbnb?retryWrites=true&w=majority";
+const dbConnectionUrl = "mongodb+srv://mironez:KncjtY81fHenQFMH@cluster0.ezbft.gcp.mongodb.net";
 
 function initialize(
     dbName,
