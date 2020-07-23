@@ -30,7 +30,7 @@
 
       </div>
       <div class="row aln-center" v-else>
-        <div class="col-12" >
+        <div class="col-12 aln-center" >
           <p>No records found.</p>
         </div>
       </div>

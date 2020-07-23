@@ -1,5 +1,8 @@
-let mongoose = require("mongoose");
-let wikiSchema = mongoose.Schema({
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
+
+const articleSchema = new Schema({
   h1: {
     type: String,
     required: true
@@ -19,9 +22,6 @@ let wikiSchema = mongoose.Schema({
     unique: true,
     required: true
   },
-  youtube: {
-    type: String
-  },
   created_date: {
     type: Date,
     default: Date.now()
@@ -29,16 +29,19 @@ let wikiSchema = mongoose.Schema({
   content: {
     type: String
   },
-  // theme: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   required: true,
-  //   ref: "Theme"
-  // },
+  image: {
+    type: Object
+  },
   views: {
     type: Number,
     default: 0
   }
 });
-let Wiki = mongoose.model("Wiki", wikiSchema);
-module.exports = Wiki;
 
+articleSchema.virtual('imagePath').get(function(){
+  if(this.image != null) {
+    return path.join('/uploads/', this.image)
+  }
+})
+
+module.exports = mongoose.model('Article', articleSchema)

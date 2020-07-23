@@ -63,13 +63,13 @@ export default {
       description: '',
       url: '',
       content: '',
-      image: ''
+      image: null
     }
   },
   methods: {
     handleFileUpload() {
-      this.musicDetails.music = this.$refs.file.files[0]
-      console.log(this.musicDetails.music.type)
+      this.image = this.$refs.file.files[0]
+      console.log(this.image)
     },
     submitForm() {
       this.$axios
@@ -80,8 +80,16 @@ export default {
           url: this.url,
           content: this.content,
           image: this.image,
-        })
+        }
+        // ,
+        // {
+        //   headers: {
+        //     "Content-Type": "multipart/form-data"
+        //   }
+        // }
+        )
         .then((response) => {
+          // console.log(response)
           if (response.data._id) {
             swal('Success', 'Added successfully!')
             this.$router.push({ name: 'articles', params: { created: 'yes' } })

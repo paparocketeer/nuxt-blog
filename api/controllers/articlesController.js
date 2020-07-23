@@ -9,7 +9,15 @@ exports.list = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  const newArticle = new Article(req.body);
+  const newArticle = new Article(
+    {
+      h1: req.body.h1,
+      title: req.body.title,
+      description: req.body.description,
+      url: req.body.url,
+      content: req.body.content,
+      image: req.file
+    });
   newArticle.save((err, article) => {
     if (err) res.send(err);
     res.json(article);
@@ -40,7 +48,7 @@ exports.delete = (req, res) => {
     if (err) res.send(err);
     res.json({
       message: 'Article successfully deleted',
-     _id: req.params.id
+      _id: req.params.id
     });
   });
 };

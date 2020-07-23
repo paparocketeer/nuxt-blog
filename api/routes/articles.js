@@ -1,4 +1,4 @@
-const config = require('../multer')
+const upload = require('../multer')
 const { Router } = require('express')
 
 const router = Router()
@@ -14,7 +14,7 @@ router.get('/articles/:id', articlesController.show)
 
 // Create
 // router.post('/articles', config.isAuthenticated, articlesController.create)
-router.post('/articles', upload.upload.single('article'), articlesController.create)
+router.post('/articles', upload.upload.single('file'), articlesController.create)
 
 // Update
 // router.put('/articles/:id', config.isAuthenticated, articlesController.update)
