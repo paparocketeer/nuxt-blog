@@ -9,6 +9,7 @@ const app = express()
 // Init body-parser options (inbuilt with express)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads'));
 app.use(morgan("dev")); // configire morgan
 
 // Require & Import API routes

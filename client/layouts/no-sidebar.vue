@@ -28,7 +28,6 @@ html, body{
   padding: 0;
   font-family: 'Roboto';
   font-size : 14px;
-  overflow : hidden;
   line-height: 1.4;
 }
 h1, h2, h3, h4, h5{

@@ -36,6 +36,9 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    {
+      src: '@/plugins/sweetalert'
+    }
   ],
   /*
   ** Auto import components
@@ -58,9 +61,9 @@ export default {
   /*
   ** Server Middleware
   */
- serverMiddleware: {
-  '/api': '@/api'
-},
+ serverMiddleware: [
+  '~/api/index.js'
+ ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options

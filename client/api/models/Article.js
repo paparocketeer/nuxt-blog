@@ -29,10 +29,19 @@ const taskSchema = new Schema({
   content: {
     type: String
   },
+  image: {
+
+  },
   views: {
     type: Number,
     default: 0
   }
 });
+
+blogShema.virtual('imagePath').get(function(){
+  if(this.image != null) {
+  return path.join('/uploads/', this.image)
+}
+})
 
 module.exports = mongoose.model('Article', taskSchema)

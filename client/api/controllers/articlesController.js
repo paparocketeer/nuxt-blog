@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Article = require('../models/Article')
-// const Article = mongoose.model('Article');
 
 exports.list = (req, res) => {
   Article.find({}, (err, articles) => {
