@@ -36,9 +36,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    {
-      src: '@/plugins/sweetalert'
-    }
+    { src: '@/plugins/sweetalert', ssr: false }
   ],
   /*
   ** Auto import components

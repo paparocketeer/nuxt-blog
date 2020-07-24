@@ -7,12 +7,12 @@
       <form action method="post" enctype="multipart/form-data" @submit.prevent="submitForm()">
         <div class="row gtr-50">
           <div class="col-12">
-            <vue-dropzone
+            <dropzone
               ref="imgDropZone"
               id="customdropzone"
               :options="dropzoneOptions"
               @vdropzone-complete="afterComplete"
-            ></vue-dropzone>
+            ></dropzone>
           </div>
           <!-- <div class="col-12">
             <img :src="imageSrc" v-if="imageSrc" class="cover-preview" />
@@ -57,8 +57,10 @@
 </template>
 
 <script>
-import vue2Dropzone from 'vue2-dropzone'
-import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+// import vue2Dropzone from 'vue2-dropzone'
+// import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import Dropzone from 'nuxt-dropzone'
+import 'nuxt-dropzone/dropzone.css'
 import axios from 'axios'
 
 export default {
@@ -84,7 +86,7 @@ export default {
     }
   },
   components: {
-    vueDropzone: vue2Dropzone,
+    Dropzone,
   },
   methods: {
     async afterComplete(upload) {
