@@ -57,8 +57,6 @@
 </template>
 
 <script>
-// import vue2Dropzone from 'vue2-dropzone'
-// import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import Dropzone from 'nuxt-dropzone'
 import 'nuxt-dropzone/dropzone.css'
 import axios from 'axios'
