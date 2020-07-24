@@ -4,43 +4,47 @@
       <h1>Add New Article</h1>
     </div>
     <div class="container">
-      <form 
-          action=""
-          method="post"
-          @submit.prevent="submitForm()">
+      <form action method="post" enctype="multipart/form-data" @submit.prevent="submitForm()">
         <div class="row gtr-50">
+          <div class="col-12">
+            <vue-dropzone
+              ref="imgDropZone"
+              id="customdropzone"
+              :options="dropzoneOptions"
+              @vdropzone-complete="afterComplete"
+            ></vue-dropzone>
+          </div>
+          <!-- <div class="col-12">
+            <img :src="imageSrc" v-if="imageSrc" class="cover-preview" />
+            <input
+              type="file"
+              id="customFile"
+              ref="file"
+              v-on:change="handleFileUpload()"
+              class="custom-file-input"
+            />
+            <label class="custom-file-label" for="customFile">Choose article image</label>
+          </div> -->
           <div class="col-6 col-12-small">
-            <input type="text" placeholder="Header" name="header" v-model="h1">
+            <input type="text" placeholder="Header" name="header" v-model="h1" />
           </div>
           <div class="col-6 col-12-small">
-            <input type="text" placeholder="Title" name="title" v-model="title">
+            <input type="text" placeholder="Title" name="title" v-model="title" />
           </div>
           <div class="col-6 col-12-small">
-            <input type="text" placeholder="Description" name="description" v-model="description">
+            <input type="text" placeholder="Description" name="description" v-model="description" />
           </div>
           <div class="col-6 col-12-small">
-            <input type="text" placeholder="Slug" name="url" v-model="url">
+            <input type="text" placeholder="Slug" name="url" v-model="url" />
           </div>
           <div class="col-12">
             <textarea cols="30" rows="4" v-model="content" placeholder="Content" name="content"></textarea>
-          </div>
-          <div class="col-12">
-            <input
-                      type="file"
-                      id="customFile"
-                      ref="file"
-                      v-on:change="handleFileUpload()"
-                      class="custom-file-input"
-                    />
-                    <label class="custom-file-label" for="customFile">Choose file</label>
           </div>
           <div class="col-12">
             <ul class="actions">
               <li>
                 <input type="submit" class="style2" value="Send" />
               </li>
-              <button
-              @click="showAlert">swal</button>
               <li>
                 <nuxt-link to="/articles" class="button style2">Cancel</nuxt-link>
               </li>
@@ -53,6 +57,8 @@
 </template>
 
 <script>
+import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import axios from 'axios'
 
 export default {
@@ -63,52 +69,82 @@ export default {
       description: '',
       url: '',
       content: '',
-      image: null
+      image: '',
+      dropzoneOptions: {
+        url: 'https://httpbin.org/post',
+        maxFiles: 1,
+        maxFilesize: 2,
+        addRemoveLinks: true,
+        acceptedFiles: '.jpg, .jpeg, .png',
+        dictDefaultMessage: `<p class='text-default'><i class='fa fa-cloud-upload mr-2'></i> Drag cover image here or click to upload</p>
+          <p class="form-text">Allowed Files: .jpg, .jpeg, .png</p>
+          <p class="form-text">Allowed Size: < 2Mb</p>
+          `,
+      },
     }
   },
+  components: {
+    vueDropzone: vue2Dropzone,
+  },
   methods: {
-    handleFileUpload() {
-      this.image = this.$refs.file.files[0]
-      console.log(this.image)
-    },
-    submitForm() {
-      this.$axios
-        .post('/api/articles', {
-          h1: this.h1,
-          title: this.title,
-          description: this.description,
-          url: this.url,
-          content: this.content,
-          image: this.image,
+    async afterComplete(upload) {
+      this.isLoading = true
+      try {
+        if (upload.size < this.dropzoneOptions.maxFilesize * 1024 * 1024) {
+          this.image = upload
         }
-        // ,
-        // {
-        //   headers: {
-        //     "Content-Type": "multipart/form-data"
-        //   }
-        // }
-        )
+        else {
+          swal('Error', 'Image size is to big', 'error')
+        }        
+      } catch (error) {
+        console.log(error)
+        swal('Error', 'Something Went wrong', 'error')
+      }
+    },
+    // handleFileUpload() {
+    //   this.image = this.$refs.file.files[0]
+    //   const reader = new FileReader()
+    //   reader.onload = (e) => {
+    //     this.imageSrc = reader.result
+    //   }
+    //   reader.readAsDataURL(this.image)
+    //   console.log(this.image)
+    // },
+    submitForm() {
+      let formData = new FormData()
+      formData.append('h1', this.h1)
+      formData.append('title', this.title)
+      formData.append('description', this.description)
+      formData.append('url', this.url)
+      formData.append('content', this.content)
+      formData.append('image', this.image)
+
+      this.$axios
+        .post('/api/articles', formData)
         .then((response) => {
-          // console.log(response)
           if (response.data._id) {
-            swal('Success', 'Added successfully!')
+            swal('Success', 'Article added successfully', 'success')
             this.$router.push({ name: 'articles', params: { created: 'yes' } })
           }
-          else{
-            swal('Error', response.data.message)
-          }
         })
-        .catch((error) => {
-          swal('Error', error)
-          console.log(error)
-          // if (error.response.data.errors) {
-          //   this.errors = error.response.data.errors
-          // }
+        .catch((err) => {
+          swal('Error', 'Something Went wrong', 'error')
         })
     },
-    showAlert(){
+    showAlert() {
       swal('Error', 'Error Fetting Musics', 'error')
-    }
+    },
   },
 }
 </script>
+
+<style scoped>
+.image-div {
+  display: flex;
+  margin: 25px;
+}
+.image {
+  max-width: 250px;
+  margin: 15px;
+}
+</style>

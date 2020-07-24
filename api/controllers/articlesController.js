@@ -8,8 +8,8 @@ exports.list = (req, res) => {
   });
 };
 
-exports.create = (req, res) => {
-  const newArticle = new Article(
+exports.create = async (req, res) => {
+  let newArticle = new Article(
     {
       h1: req.body.h1,
       title: req.body.title,
@@ -17,11 +17,15 @@ exports.create = (req, res) => {
       url: req.body.url,
       content: req.body.content,
       image: req.file
-    });
-  newArticle.save((err, article) => {
-    if (err) res.send(err);
-    res.json(article);
-  });
+    })    
+    try {
+      await newArticle.save()
+      res.status(200).json(newArticle);
+      // res.send(newArticle)
+    } catch (error) {
+      res.status(500).json({ error: err });
+      // res.send(err)
+    }
 };
 
 exports.show = (req, res) => {

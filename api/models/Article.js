@@ -11,6 +11,10 @@ const articleSchema = new Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String,
+    required: true
+  },
   intro: {
     type: String
   },
@@ -37,11 +41,5 @@ const articleSchema = new Schema({
     default: 0
   }
 });
-
-articleSchema.virtual('imagePath').get(function(){
-  if(this.image != null) {
-    return path.join('/uploads/', this.image)
-  }
-})
 
 module.exports = mongoose.model('Article', articleSchema)

@@ -12,7 +12,7 @@
             <nuxt-link 
             :to="'/articles/' + article._id"
             class="image featured">
-              <img src="images/pic02.jpg" alt />
+            <img :src="(article.image) ? 'uploads/' + article.image.filename : 'images/pic02.jpg'" alt />          
             </nuxt-link>
             <h3>
               {{ article.title }}
@@ -45,12 +45,12 @@
 export default {
   head() {
     return {
-      title: 'Статический тайтл 2',
+      title: 'Articles',
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: 'Статический деск 2',
+          content: 'Articles examples inside MEVN blog',
         },
         { hid: 'robots', name: 'robots', content: 'noindex,nofollow' },
       ],
