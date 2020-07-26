@@ -36,7 +36,8 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    { src: '@/plugins/sweetalert', ssr: false }
+    { src: '@/plugins/sweetalert', ssr: false },
+    '@/plugins/vue-gallery.client.js'
   ],
   /*
   ** Auto import components

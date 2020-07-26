@@ -7,12 +7,12 @@
         <div 
         class="col-3 col-12-medium"
         v-for="article in articles"
-        :key="article._id">
+        :key="article.url">
           <section class="highlight">
             <nuxt-link 
-            :to="'/articles/' + article._id"
+            :to="'/articles/' + article.url"
             class="image featured">
-            <img :src="(article.image) ? 'uploads/' + article.image.filename : 'images/pic02.jpg'" alt />          
+            <img :src="(article.image) ? '../uploads/' + article.image.filename : 'images/pic02.jpg'" alt />          
             </nuxt-link>
             <h3>
               {{ article.title }}
@@ -22,7 +22,7 @@
               <li>
                 <nuxt-link
                   class="button style1"
-                  :to="'/articles/' + article._id">Learn more</nuxt-link>
+                  :to="'/articles/' + article.url">Learn more</nuxt-link>
               </li>
             </ul>
           </section>

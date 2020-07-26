@@ -5,7 +5,7 @@ exports.list = (req, res) => {
   Article.find({}, (err, articles) => {
     if (err) res.send(err);
     res.json(articles);
-  });
+  }).sort({ created_date: -1 });
 };
 
 exports.create = async (req, res) => {
@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
 };
 
 exports.show = (req, res) => {
-  Article.findById(req.params.id, (err, article) => {
+  Article.findOne({ url: req.params.id }, (err, article) => {
     if (err) res.send(err);
     res.json(article);
   });
@@ -37,7 +37,7 @@ exports.show = (req, res) => {
 
 exports.update = (req, res) => {
   Article.findOneAndUpdate(
-    { _id: req.params.id },
+    { url: req.params.id },
     req.body,
     { new: true },
     (err, article) => {
@@ -48,11 +48,11 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Article.deleteOne({ _id: req.params.id }, err => {
+  Article.deleteOne({ url: req.params.id }, err => {
     if (err) res.send(err);
     res.json({
       message: 'Article successfully deleted',
-      _id: req.params.id
+      url: req.params.id
     });
   });
 };
