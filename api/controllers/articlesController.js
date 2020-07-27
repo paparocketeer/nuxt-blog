@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const Article = require('../models/Article')
 
-exports.list = (req, res) => {
-  Article.find({}, (err, articles) => {
-    if (err) res.send(err);
-    res.json(articles);
-  }).sort({ created_date: -1 });
+exports.list = async (req, res) => {
+  try {
+    let articles = await Article.find()
+    .sort({ created_date: -1 })
+    res.status(200).json(articles);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 exports.create = async (req, res) => {
@@ -17,42 +20,50 @@ exports.create = async (req, res) => {
       url: req.body.url,
       content: req.body.content,
       image: req.file
-    })    
-    try {
-      await newArticle.save()
-      res.status(200).json(newArticle);
-      // res.send(newArticle)
-    } catch (error) {
-      res.status(500).json({ error: err });
-      // res.send(err)
-    }
+    })
+  try {
+    await newArticle.save()
+    res.status(200).json(newArticle);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
-exports.show = (req, res) => {
-  Article.findOne({ url: req.params.id }, (err, article) => {
-    if (err) res.send(err);
-    res.json(article);
-  });
+exports.show = async (req, res) => {
+  try {
+    let article = await Article.findOne({ url: req.params.id })
+    res.status(200).json(article);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
-exports.update = (req, res) => {
-  Article.findOneAndUpdate(
-    { url: req.params.id },
-    req.body,
-    { new: true },
-    (err, article) => {
-      if (err) res.send(err);
-      res.json(article);
-    }
-  );
+exports.update = async (req, res) => {
+  try {
+    await Article.updateOne(
+      { url: req.params.id },  
+      {
+        $set: {
+          h1: req.body.h1,
+          title: req.body.title,
+          description: req.body.description,
+          url: req.body.url,
+          content: req.body.content,
+          image: req.file ? req.file : req.body.image
+        }
+      }
+    )
+    res.status(200).json({ message: 'Updated' });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
-exports.delete = (req, res) => {
-  Article.deleteOne({ url: req.params.id }, err => {
-    if (err) res.send(err);
-    res.json({
-      message: 'Article successfully deleted',
-      url: req.params.id
-    });
-  });
+exports.delete = async (req, res) => {
+  try {
+    await Article.deleteOne({ url: req.params.id })
+    res.status(200).json({ message: 'Deleted' });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };

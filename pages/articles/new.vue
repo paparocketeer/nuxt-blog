@@ -92,6 +92,7 @@ export default {
       try {
         if (upload.size < this.dropzoneOptions.maxFilesize * 1024 * 1024) {
           this.image = upload
+          console.log(upload)
         }
         else {
           swal('Error', 'Image size is to big', 'error')
