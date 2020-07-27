@@ -43,13 +43,19 @@ exports.update = async (req, res) => {
     await Article.updateOne(
       { url: req.params.id },  
       {
-        $set: {
+        $set: req.file ? {
           h1: req.body.h1,
           title: req.body.title,
           description: req.body.description,
           url: req.body.url,
           content: req.body.content,
-          image: req.file ? req.file : req.body.image
+          image: req.file
+        } : {
+          h1: req.body.h1,
+          title: req.body.title,
+          description: req.body.description,
+          url: req.body.url,
+          content: req.body.content
         }
       }
     )

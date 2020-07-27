@@ -1,51 +1,4 @@
 <template>
-  <!-- <div>
-    <h1>Update Article</h1>
-    <hr>
-
-    <div class="row">
-      <div class="col-md-6">
-        <form action=""
-          method="post"
-          @submit.prevent="submitForm()">
-
-          <div class="form-group">
-            <label for="">Title</label>
-            <input type="text" class="form-control"
-              :class="{ 'is-invalid': errors && errors.title }"
-              v-model="title">
-            <div class="invalid-feedback" v-if="errors && errors.title">
-              {{ errors.title.msg }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="">Author</label>
-            <input type="text" class="form-control"
-              :class="{ 'is-invalid': errors && errors.author }"
-              v-model="author">
-            <div class="invalid-feedback" v-if="errors && errors.author">
-              {{ errors.author.msg }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="">Body</label>
-            <textarea cols="30" rows="4" class="form-control"
-              :class="{ 'is-invalid': errors && errors.body }"
-              v-model="body"></textarea>
-            <div class="invalid-feedback" v-if="errors && errors.body">
-              {{ errors.body.msg }}
-            </div>
-          </div>
-
-          <input type="submit" value="Submit" class="btn btn-primary mr-3">
-          <nuxt-link :to="'/articles/' + $route.params.id" class="btn btn-secondary mr-3">Cancel</nuxt-link>
-
-        </form>
-      </div>
-    </div>
-  </div> -->
   <section id="intro" class="wrapper style1">
     <div class="title">
       <h1>Update Article</h1>
@@ -99,21 +52,20 @@ import 'nuxt-dropzone/dropzone.css'
 import axios from 'axios'
 
 export default {
-  // middleware: 'auth',
-
-  async asyncData(context){
-    const {data} = await context.$axios.get('/api/articles/' + context.route.params.url)
+  async asyncData(context) {
+    const { data } = await context.$axios.get(
+      '/api/articles/' + context.route.params.url
+    )
     return {
-      article : data
+      article: data,
     }
   },
-
-  data(){
-    return{
-      errors:null,
-      title:null,
-      author:null,
-      body:null,
+  data() {
+    return {
+      errors: null,
+      title: null,
+      author: null,
+      body: null,
       dropzoneOptions: {
         url: 'https://httpbin.org/post',
         maxFiles: 1,
@@ -131,44 +83,44 @@ export default {
     Dropzone,
   },
 
-  created(){
-    this.fillFormData()    
+  created() {
+    this.fillFormData()
   },
 
-  methods:{
-    fillFormData(){
+  methods: {
+    fillFormData() {
       this.h1 = this.article.h1
       this.title = this.article.title
       this.description = this.article.description
       this.url = this.article.url
       this.content = this.article.content
-      this.image = this.article.image
-      },
+    },
     async afterComplete(upload) {
-      
       this.isLoading = true
       try {
         if (upload.size < this.dropzoneOptions.maxFilesize * 1024 * 1024) {
           this.image = upload
           console.log(upload)
-        }
-        else {
+        } else {
           swal('Error', 'Image size is to big', 'error')
-        }        
+        }
       } catch (error) {
         console.log(error)
         swal('Error', 'Something Went wrong', 'error')
       }
     },
-    vmounted(){
-      this.$nextTick(function(){
-        console.log(this.article.image)
-        let mockFile = this.article.image ? this.article.image : {size: 123, type: 'image/jpg'}
-        let url = this.article.image ? '/uploads/' + this.article.image.filename : '/images/pic02.jpg'
-        this.$refs.imgDropZone.manuallyAddFile(mockFile, url);
+    vmounted() {
+      this.$nextTick(function () {
+        let mockFile = this.article.image
+          ? this.article.image
+          : { size: 123, type: 'image/jpg' }
+        let url = this.article.image
+          ? '/uploads/' + this.article.image.filename
+          : '/images/pic02.jpg'
+        this.$refs.imgDropZone.manuallyAddFile(mockFile, url)
       })
     },
-    submitForm(){
+    submitForm() {
       let formData = new FormData()
       formData.append('h1', this.h1)
       formData.append('title', this.title)
@@ -176,26 +128,22 @@ export default {
       formData.append('url', this.url)
       formData.append('content', this.content)
       if (this.image.upload) {
-        console.log('got new img')
-        console.log(this.image)
         formData.append('image', this.image)
-      }     
+      }
 
-      this.$axios.put( '/api/articles/' + this.$route.params.url , formData)
+      this.$axios
+        .put('/api/articles/' + this.$route.params.url, formData)
         .then((response) => {
-          console.log(response)
-
-          if(response.data._id){
-            this.$router.push({ name:'articles-id', params:{ updated:'yes', id: this.$route.params.id } })
+          if (response.status == 200) {
+            swal('Success', 'Article updated successfully', 'success')
+            this.$router.push({ name: 'articles', params: { updated: 'yes' } })
           }
         })
-        .catch( (error) => {
+        .catch((error) => {
           console.log(error)
-          if(error.response.data.errors){
-            this.errors = error.response.data.errors
-          }
-        });
-    }
-  }
+          swal('Error', 'Something Went wrong', 'error')
+        })
+    },
+  },
 }
 </script>

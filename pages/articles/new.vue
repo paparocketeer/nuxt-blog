@@ -14,17 +14,6 @@
               @vdropzone-complete="afterComplete"
             ></dropzone>
           </div>
-          <!-- <div class="col-12">
-            <img :src="imageSrc" v-if="imageSrc" class="cover-preview" />
-            <input
-              type="file"
-              id="customFile"
-              ref="file"
-              v-on:change="handleFileUpload()"
-              class="custom-file-input"
-            />
-            <label class="custom-file-label" for="customFile">Choose article image</label>
-          </div> -->
           <div class="col-6 col-12-small">
             <input type="text" placeholder="Header" name="header" v-model="h1" />
           </div>
@@ -102,15 +91,6 @@ export default {
         swal('Error', 'Something Went wrong', 'error')
       }
     },
-    // handleFileUpload() {
-    //   this.image = this.$refs.file.files[0]
-    //   const reader = new FileReader()
-    //   reader.onload = (e) => {
-    //     this.imageSrc = reader.result
-    //   }
-    //   reader.readAsDataURL(this.image)
-    //   console.log(this.image)
-    // },
     submitForm() {
       let formData = new FormData()
       formData.append('h1', this.h1)
@@ -131,9 +111,6 @@ export default {
         .catch((err) => {
           swal('Error', 'Something Went wrong', 'error')
         })
-    },
-    showAlert() {
-      swal('Error', 'Error Fetting Musics', 'error')
     },
   },
 }
