@@ -36,7 +36,8 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    { src: '@/plugins/sweetalert', ssr: false }    
+    { src: '@/plugins/sweetalert', ssr: false },
+    '@/plugins/vue-placeholders.js'  
   ],
   /*
   ** Auto import components
@@ -56,6 +57,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    '@nuxt/http',
     'bootstrap-vue/nuxt'
   ],
   /*

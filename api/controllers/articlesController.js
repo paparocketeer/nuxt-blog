@@ -16,7 +16,7 @@ exports.list = async (req, res) => {
     let articles = await Article.paginate({},
       {
         page: req.params.page,
-        limit: 2,
+        limit: req.params.limit,
       })
       res.status(200).json(articles);
   } catch (error) {

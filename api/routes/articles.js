@@ -7,7 +7,7 @@ const router = Router()
 const articlesController = require('../controllers/articlesController')
 
 // Get page
-router.get('/articles/p/:page', articlesController.list)
+router.get('/articles/p/:page/:limit', articlesController.list)
 
 // Get page
 // router.get('/articles/p/:page', articlesController.listPage)
