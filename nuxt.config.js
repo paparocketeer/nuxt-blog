@@ -36,8 +36,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    { src: '@/plugins/sweetalert', ssr: false },
-    '@/plugins/vue-gallery.client.js'
+    { src: '@/plugins/sweetalert', ssr: false }    
   ],
   /*
   ** Auto import components
@@ -48,6 +47,7 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    
   ],
   /*
   ** Nuxt.js modules
@@ -56,6 +56,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    'bootstrap-vue/nuxt'
   ],
   /*
   ** Server Middleware

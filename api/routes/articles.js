@@ -6,8 +6,11 @@ const router = Router()
 // Initialize Controller
 const articlesController = require('../controllers/articlesController')
 
-// Get All
-router.get('/articles', articlesController.list)
+// Get page
+router.get('/articles/p/:page', articlesController.list)
+
+// Get page
+// router.get('/articles/p/:page', articlesController.listPage)
 
 // Get One
 router.get('/articles/:id', articlesController.show)

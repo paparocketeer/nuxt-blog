@@ -1,15 +1,28 @@
 const mongoose = require('mongoose');
 const Article = require('../models/Article')
 
+// exports.list = async (req, res) => {
+//   try {
+//     let articles = await Article.find()
+//     .sort({ created_date: -1 })
+//     res.status(200).json(articles);
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// };
+
 exports.list = async (req, res) => {
   try {
-    let articles = await Article.find()
-    .sort({ created_date: -1 })
-    res.status(200).json(articles);
+    let articles = await Article.paginate({},
+      {
+        page: req.params.page,
+        limit: 2,
+      })
+      res.status(200).json(articles);
   } catch (error) {
     res.status(500).json(error);
-  }
-};
+  }  
+}
 
 exports.create = async (req, res) => {
   let newArticle = new Article(
@@ -37,6 +50,8 @@ exports.show = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+
 
 exports.update = async (req, res) => {
   try {
