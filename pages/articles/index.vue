@@ -3,9 +3,15 @@
     <div class="title">Articles</div>
     <div class="container">
       <template v-if="$fetchState.pending">
-        <content-placeholders>
-          <content-placeholders-text :lines="20" />
-        </content-placeholders>
+        <div class="row aln-center">
+          <div class="col-4 col-12-medium" v-for="(item, index) in 3" :key="index">
+            <content-placeholders>
+              <content-placeholders-img />
+              <content-placeholders-heading />
+              <content-placeholders-text :lines="6" />
+            </content-placeholders>
+          </div>
+        </div>
       </template>
       <template v-else-if="$fetchState.error">
         <p>Error while fetching articles: {{ error }}</p>
@@ -36,7 +42,15 @@
           </div>
         </div>
       </template>
-      <b-pagination-nav :link-gen="linkGen" :number-of-pages="posts.totalPages" use-router v-if="posts.totalPages > 1"></b-pagination-nav>
+      <div class="mt-5">
+        <b-pagination-nav
+          align="center"
+          :link-gen="linkGen"
+          :number-of-pages="posts.totalPages"
+          use-router
+          v-if="posts.totalPages > 1"
+        ></b-pagination-nav>
+      </div>
       <div class="row aln-center add-btn">
         <nuxt-link to="/articles/new" class="button style2">Add New</nuxt-link>
       </div>
@@ -49,7 +63,7 @@ export default {
   data() {
     return {
       posts: [],
-      limit: 3
+      limit: 3,
     }
   },
   head() {
@@ -74,9 +88,10 @@ export default {
   // },
   async fetch() {
     this.posts = await this.$http.$get(
-      `/api/articles/p/${this.$route.query.page}/${this.$route.query.limit ? this.$route.query.limit : this.limit}`
+      `/api/articles/p/${this.$route.query.page}/${
+        this.$route.query.limit ? this.$route.query.limit : this.limit
+      }`
     )
-    console.log(this.posts)
   },
   methods: {
     linkGen(pageNum) {
@@ -89,4 +104,13 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.page-item {
+  a:hover,
+  a:visited,
+  a:active {
+    color: #555;
+  }
+}
+</style>
 
