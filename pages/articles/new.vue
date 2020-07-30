@@ -4,7 +4,7 @@
       <h1>Add New Article</h1>
     </div>
     <div class="container">
-      <form action method="post" enctype="multipart/form-data" @submit.prevent="submitForm()">
+      <form action method="post" enctype="multipart/form-data" @submit.prevent="addNewArticle">
         <div class="row gtr-50">
           <div class="col-12">
             <dropzone
@@ -12,6 +12,7 @@
               id="customdropzone"
               :options="dropzoneOptions"
               @vdropzone-complete="afterComplete"
+              @vdropzone-removed-file="onRemove"
             ></dropzone>
           </div>
           <div class="col-6 col-12-small">
@@ -32,7 +33,14 @@
           <div class="col-12">
             <ul class="actions">
               <li>
-                <input type="submit" class="style2" value="Send" />
+                <button class="btn btn-info" :disabled="isDisabled">
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    v-if="addLoading"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>Submit
+                </button>
               </li>
               <li>
                 <nuxt-link to="/articles" class="button style2">Cancel</nuxt-link>
@@ -59,6 +67,8 @@ export default {
       url: '',
       content: '',
       image: '',
+      isValid: false,
+      addLoading: false,
       dropzoneOptions: {
         url: 'https://httpbin.org/post',
         maxFiles: 1,
@@ -75,6 +85,20 @@ export default {
   components: {
     Dropzone,
   },
+  computed: {
+    isDisabled: function () {
+      if (
+        this.h1 === '' ||
+        this.title === '' ||
+        this.description === '' ||
+        this.url === '' ||
+        this.content === '' ||
+        this.image === ''
+      ) {
+        return !this.isValid
+      }
+    },
+  },
   methods: {
     async afterComplete(upload) {
       this.isLoading = true
@@ -82,16 +106,15 @@ export default {
         if (upload.size < this.dropzoneOptions.maxFilesize * 1024 * 1024) {
           this.image = upload
           console.log(upload)
-        }
-        else {
+        } else {
           swal('Error', 'Image size is to big', 'error')
-        }        
+        }
       } catch (error) {
         console.log(error)
         swal('Error', 'Something Went wrong', 'error')
       }
     },
-    submitForm() {
+    addNewArticle() {
       let formData = new FormData()
       formData.append('h1', this.h1)
       formData.append('title', this.title)
@@ -99,24 +122,35 @@ export default {
       formData.append('url', this.url)
       formData.append('content', this.content)
       formData.append('image', this.image)
-
+      this.addLoading = true
       this.$axios
         .post('/api/articles', formData)
         .then((response) => {
           if (response.data._id) {
+            this.addLoading = false
             swal('Success', 'Article added successfully', 'success')
             this.$router.push({ name: 'articles', params: { created: 'yes' } })
+          } else {
+            console.log(response)
           }
         })
         .catch((err) => {
+          this.addLoading = false
           swal('Error', 'Something Went wrong', 'error')
         })
+    },
+    onRemove() {
+      this.image = ''
     },
   },
 }
 </script>
 
 <style scoped>
+.btn.disabled, .btn:disabled {
+    opacity: 0.65;
+    cursor: default;
+}
 .image-div {
   display: flex;
   margin: 25px;

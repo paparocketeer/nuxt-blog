@@ -4,7 +4,7 @@
       <h1>Update Article</h1>
     </div>
     <div class="container">
-      <form action method="post" enctype="multipart/form-data" @submit.prevent="submitForm()">
+      <form action method="post" enctype="multipart/form-data" @submit.prevent="addNewArticle">
         <div class="row gtr-50">
           <div class="col-12">
             <dropzone
@@ -13,6 +13,7 @@
               :options="dropzoneOptions"
               @vdropzone-complete="afterComplete"
               @vdropzone-mounted="vmounted"
+              @vdropzone-removed-file="onRemove"
             ></dropzone>
           </div>
           <div class="col-6 col-12-small">
@@ -33,7 +34,14 @@
           <div class="col-12">
             <ul class="actions">
               <li>
-                <input type="submit" class="style2" value="Send" />
+                <button class="btn btn-info" :disabled="isDisabled">
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    v-if="addLoading"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>Update
+                </button>
               </li>
               <li>
                 <nuxt-link to="/articles" class="button style2">Cancel</nuxt-link>
@@ -62,10 +70,14 @@ export default {
   },
   data() {
     return {
-      errors: null,
-      title: null,
-      author: null,
-      body: null,
+      h1: '',
+      title: '',
+      description: '',
+      url: '',
+      content: '',
+      image: '',
+      isValid: false,
+      addLoading: false,
       dropzoneOptions: {
         url: 'https://httpbin.org/post',
         maxFiles: 1,
@@ -82,11 +94,23 @@ export default {
   components: {
     Dropzone,
   },
-
+  computed: {
+    isDisabled: function () {
+      if (
+        this.h1 === '' ||
+        this.title === '' ||
+        this.description === '' ||
+        this.url === '' ||
+        this.content === '' ||
+        this.image === ''
+      ) {
+        return !this.isValid
+      }
+    },
+  },
   created() {
     this.fillFormData()
   },
-
   methods: {
     fillFormData() {
       this.h1 = this.article.h1
@@ -119,7 +143,7 @@ export default {
         this.$refs.imgDropZone.manuallyAddFile(mockFile, url)
       })
     },
-    submitForm() {
+    addNewArticle() {
       let formData = new FormData()
       formData.append('h1', this.h1)
       formData.append('title', this.title)
@@ -143,6 +167,9 @@ export default {
           swal('Error', 'Something Went wrong', 'error')
         })
     },
-  },
+    onRemove() {
+      this.image = ''
+    }
+  }
 }
 </script>

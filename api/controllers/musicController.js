@@ -26,6 +26,27 @@ exports.addNewMusic = async (req, res) => {
   }
 };
 
+exports.update = async (req, res) => {
+  try {
+    await Music.updateOne(
+      { id: req.params._id },  
+      {
+        $set: req.file ? {
+          artist: req.body.artist,
+          title: req.body.title,
+          music: req.file
+        } : {
+          artist: req.body.artist,
+          title: req.body.title,
+        }
+      }
+    )
+    res.status(200).json({ message: 'Updated' });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 exports.deleteMusic = async (req, res) => {
   try {
     const id = req.params.musicId;

@@ -4,7 +4,6 @@
 @import 'libs/vendor';
 @import 'libs/breakpoints';
 @import 'libs/html-grid';
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700,900');
 
 /*
 	Escape Velocity by HTML5 UP
@@ -121,7 +120,6 @@
 	}
 
 	body, input, textarea, select {
-		font-family: 'Source Sans Pro', sans-serif;
 		font-weight: 400;
 		color: #919499;
 		font-size: 14pt;
@@ -1129,6 +1127,13 @@
 				}
 			}
 		}
+
+		table{
+			color: #eee;
+			th, td {
+				border: none;
+			}
+		}
 	}
 
 /* Copyright */
@@ -1740,19 +1745,42 @@
 				}
 			}
 
+	}	
+
+	section{
+		.swal-button {
+			background-color: #7cd1f9;
+			color: #fff;
+			border: none;
+			box-shadow: none;
+			border-radius: 5px;
+			font-weight: 600;
+			font-size: 14px;
+			margin: 0;
+			cursor: pointer;
+			line-height: 1;
+			padding: 20px;
+			height: auto;
+		}
+
+		.vue-dropzone {
+			border: 3px dashed #e5e5e5;
+			background: transparent;
+			font-family: inherit;
+			color: #eee;
+			&:hover{
+				background: transparent;
+			}
+			.dz-preview .dz-details {
+				background-color: rgba(33,150,243,.4);
+			}
+		}
 	}
 
-	.swal-button {
-		background-color: #7cd1f9;
-		color: #fff;
-		border: none;
-		box-shadow: none;
-		border-radius: 5px;
-		font-weight: 600;
-		font-size: 14px;
-		margin: 0;
-		cursor: pointer;
-		line-height: 1;
-		padding: 20px;
-		height: auto;
+	#footer{
+		.vue-dropzone {
+			.dz-preview .dz-details {
+				border-radius: 20px;
+			}
+		}
 	}

@@ -7,31 +7,32 @@
                     <th scope="col">#</th>
                     <th scope="col">Title</th>
                     <th scope="col">Artist</th>
-                    <th scope="col">Date created</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
-                <div
-                  v-if="musicLoading"
-                  class="spinner-border"
-                  style="width: 3rem; height: 3rem;"
-                  role="status"
-                >
-                  <span class="sr-only">Loading...</span>
-                </div>
-                <tbody v-else>
+                <tbody>
+                  <no-ssr>
+                    <span
+                      class="spinner-border spinner-border-sm"
+                      v-if="musicLoading"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                  </no-ssr>
                   <tr v-for="(music, index) in allmusic" :key="index">
                     <td>{{ index + 1 }}</td>
                     <td>{{ music.title }}</td>
                     <td>{{ music.artist }}</td>
-
-                    <td>{{ music.created }}</td>
                     <td>
                       <button class="btn btn-info" @click="deleteMusic(music._id)">Delete</button>
+                      <nuxt-link :to="'/audios/' + music._id + '/update'" class="button style2">Update</nuxt-link>
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <div class="row aln-center add-btn">
+                <nuxt-link to="/audios/new" class="button style2">Add New</nuxt-link>
+              </div>
     <!-- <div class="container">
       <template v-if="$fetchState.pending">
         <div class="row aln-center">
@@ -148,7 +149,7 @@ export default {
       }).then(willDelete => {
         if (willDelete) {
           this.$axios
-            .$delete('/music/' + id)
+            .$delete('/api/music/' + id)
             .then(response => {
               this.getAllMusics()
               swal('Poof! Your Music file has been deleted!', {

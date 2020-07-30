@@ -4,39 +4,38 @@
       <h1>Update Article</h1>
     </div>
     <div class="container">
-      <form action method="post" enctype="multipart/form-data" @submit.prevent="submitForm()">
+      <form action method="post" enctype="multipart/form-data" @submit.prevent="addNewMusic">
         <div class="row gtr-50">
           <div class="col-12">
             <dropzone
-              ref="imgDropZone"
+              ref="audioDropZone"
               id="customdropzone"
               :options="dropzoneOptions"
               @vdropzone-complete="afterComplete"
+              @vdropzone-removed-file="onRemove"
               @vdropzone-mounted="vmounted"
             ></dropzone>
           </div>
           <div class="col-6 col-12-small">
-            <input type="text" placeholder="Header" name="header" v-model="h1" />
+            <input type="text" placeholder="Artist" name="artist" v-model="artist" />
           </div>
           <div class="col-6 col-12-small">
             <input type="text" placeholder="Title" name="title" v-model="title" />
           </div>
-          <div class="col-6 col-12-small">
-            <input type="text" placeholder="Description" name="description" v-model="description" />
-          </div>
-          <div class="col-6 col-12-small">
-            <input type="text" placeholder="Slug" name="url" v-model="url" />
-          </div>
-          <div class="col-12">
-            <textarea cols="30" rows="4" v-model="content" placeholder="Content" name="content"></textarea>
-          </div>
           <div class="col-12">
             <ul class="actions">
               <li>
-                <input type="submit" class="style2" value="Send" />
+                <button class="btn btn-info" :disabled="isDisabled">
+                    <span
+                      class="spinner-border spinner-border-sm"
+                      v-if="addLoading"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>Update
+                  </button>
               </li>
               <li>
-                <nuxt-link to="/articles" class="button style2">Cancel</nuxt-link>
+                <nuxt-link to="/audios" class="button style2">Cancel</nuxt-link>
               </li>
             </ul>
           </div>
@@ -54,18 +53,19 @@ import axios from 'axios'
 export default {
   async asyncData(context) {
     const { data } = await context.$axios.get(
-      '/api/articles/' + context.route.params.url
+      '/api/music/' + context.route.params._id
     )
     return {
-      article: data,
+      audio: data,
     }
   },
   data() {
     return {
-      errors: null,
-      title: null,
-      author: null,
-      body: null,
+      title: '',
+      artist: '',
+      music: '',
+      addLoading: false,
+      isValid: false,
       dropzoneOptions: {
         url: 'https://httpbin.org/post',
         maxFiles: 1,
@@ -89,19 +89,15 @@ export default {
 
   methods: {
     fillFormData() {
-      this.h1 = this.article.h1
-      this.title = this.article.title
-      this.description = this.article.description
-      this.url = this.article.url
-      this.content = this.article.content
+      this.title = this.audio.title
+      this.artist = this.audio.artist
     },
     async afterComplete(upload) {
-      this.isLoading = true
       try {
         if (upload.size < this.dropzoneOptions.maxFilesize * 1024 * 1024) {
-          this.image = upload
+          this.music = upload
         } else {
-          swal('Error', 'Image size is to big', 'error')
+          swal('Error', 'File size is to big', 'error')
         }
       } catch (error) {
         console.log(error)
@@ -110,32 +106,23 @@ export default {
     },
     vmounted() {
       this.$nextTick(function () {
-        let mockFile = this.article.image
-          ? this.article.image
-          : { size: 123, type: 'image/jpg' }
-        let url = this.article.image
-          ? '/uploads/' + this.article.image.filename
-          : '/images/pic02.jpg'
+        let mockFile = this.audio.music
+        let url = '/uploads/' + this.audio.music.filename
         this.$refs.imgDropZone.manuallyAddFile(mockFile, url)
       })
     },
-    submitForm() {
+    addNewMusic() {
       let formData = new FormData()
-      formData.append('h1', this.h1)
+      formData.append('artist', this.artist)
       formData.append('title', this.title)
-      formData.append('description', this.description)
-      formData.append('url', this.url)
-      formData.append('content', this.content)
-      if (this.image.upload) {
-        formData.append('image', this.image)
-      }
+      formData.append('image', this.music)
 
       this.$axios
-        .put('/api/articles/' + this.$route.params.url, formData)
+        .put('/api/music/' + this.$route.params._id, formData)
         .then((response) => {
           if (response.status == 200) {
-            swal('Success', 'Article updated successfully', 'success')
-            this.$router.push({ name: 'articles', params: { updated: 'yes' } })
+            swal('Success', 'Music updated successfully', 'success')
+            this.$router.push({ name: 'audios', params: { updated: 'yes' } })
           }
         })
         .catch((error) => {
