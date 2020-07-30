@@ -105,7 +105,6 @@ export default {
       try {
         if (upload.size < this.dropzoneOptions.maxFilesize * 1024 * 1024) {
           this.image = upload
-          console.log(upload)
         } else {
           swal('Error', 'Image size is to big', 'error')
         }
@@ -126,17 +125,13 @@ export default {
       this.$axios
         .post('/api/articles', formData)
         .then((response) => {
-          if (response.data._id) {
-            this.addLoading = false
-            swal('Success', 'Article added successfully', 'success')
-            this.$router.push({ name: 'articles', params: { created: 'yes' } })
-          } else {
-            console.log(response)
-          }
+          this.addLoading = false
+          swal('Success', 'Article added successfully', 'success')
+          this.$router.push({ name: 'articles', params: { created: 'yes' } })
         })
         .catch((err) => {
           this.addLoading = false
-          swal('Error', 'Something Went wrong', 'error')
+          swal('Error', err.message, 'error')
         })
     },
     onRemove() {
@@ -147,9 +142,10 @@ export default {
 </script>
 
 <style scoped>
-.btn.disabled, .btn:disabled {
-    opacity: 0.65;
-    cursor: default;
+.btn.disabled,
+.btn:disabled {
+  opacity: 0.65;
+  cursor: default;
 }
 .image-div {
   display: flex;

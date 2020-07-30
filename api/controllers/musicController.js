@@ -10,6 +10,15 @@ exports.getAllMusics = async (req, res) => {
   }
 };
 
+exports.show = async (req, res) => {
+  try {
+    let music = await Music.findOne({ _id: req.params.id })
+    res.status(200).json(music);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 exports.addNewMusic = async (req, res) => {
   try {
     const music = new Music({
@@ -17,7 +26,6 @@ exports.addNewMusic = async (req, res) => {
       artist:req.body.artist,
       music:req.file
     });
-     console.log(music)
     let newMusic = await music.save();
    
     res.status(200).json({ data: newMusic });
@@ -29,7 +37,7 @@ exports.addNewMusic = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     await Music.updateOne(
-      { id: req.params._id },  
+      { _id: req.params.musicId },  
       {
         $set: req.file ? {
           artist: req.body.artist,

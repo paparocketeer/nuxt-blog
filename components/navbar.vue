@@ -18,7 +18,7 @@
           <nuxt-link to="/articles">Articles</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/audios">Audios</nuxt-link>
+          <nuxt-link to="/music">Audios</nuxt-link>
         </li>       
       </ul>
     </nav>

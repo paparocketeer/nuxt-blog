@@ -25,16 +25,16 @@
             <ul class="actions">
               <li>
                 <button class="btn btn-info" :disabled="isDisabled">
-                    <span
-                      class="spinner-border spinner-border-sm"
-                      v-if="addLoading"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>Submit
-                  </button>
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    v-if="addLoading"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>Submit
+                </button>
               </li>
               <li>
-                <nuxt-link to="/audios" class="button style2">Cancel</nuxt-link>
+                <nuxt-link to="/music" class="button style2">Cancel</nuxt-link>
               </li>
             </ul>
           </div>
@@ -74,65 +74,53 @@ export default {
     Dropzone,
   },
   computed: {
-    isDisabled: function() {
-      if (
-        this.title === '' ||
-        this.artist === '' ||
-        this.music === ''
-      ) {
+    isDisabled: function () {
+      if (this.title === '' || this.artist === '' || this.music === '') {
         return !this.isValid
       }
-    }
+    },
   },
   methods: {
     addNewMusic() {
-        let formData = new FormData()
-        formData.append('title', this.title)
-        formData.append('artist', this.artist)
-        formData.append('music', this.music)
-        this.addLoading = true
-        this.$axios
-          .$post('/api/music', formData)
-          .then(response => {
-            if (response.data._id) {
-            this.addLoading = false
-            swal('Success', 'New Music Added', 'success')
-            this.$router.push({ name: 'audios', params: { created: 'yes' } })
-          }
-          else{
-            console.log(response)
-          }            
-          })
-          .catch(err => {
-            this.addLoading = false
-            swal('Error', 'Something Went wrong', 'error')
-            console.log(err)
-          })
+      let formData = new FormData()
+      formData.append('title', this.title)
+      formData.append('artist', this.artist)
+      formData.append('music', this.music)
+      this.addLoading = true
+      this.$axios
+        .$post('/api/music', formData)
+        .then((response) => {
+          this.addLoading = false
+          swal('Success', 'New Music Added', 'success')
+          this.$router.push({ name: 'music', params: { created: 'yes' } })
+        })
+        .catch((err) => {
+          this.addLoading = false
+          swal('Error', err.message, 'error')
+        })
     },
     async afterComplete(upload) {
       try {
         if (upload.size < this.dropzoneOptions.maxFilesize * 1024 * 1024) {
           this.music = upload
-          console.log(upload)
-        }
-        else {
+        } else {
           swal('Error', 'Image size is to big', 'error')
-        }        
-      } catch (error) {
-        console.log(error)
-        swal('Error', 'Something Went wrong', 'error')
+        }
+      } catch (err) {
+        swal('Error', err.message, 'error')
       }
     },
-    onRemove(){
+    onRemove() {
       this.music = ''
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
-.btn.disabled, .btn:disabled {
-    opacity: 0.65;
-    cursor: default;
+.btn.disabled,
+.btn:disabled {
+  opacity: 0.65;
+  cursor: default;
 }
 </style>

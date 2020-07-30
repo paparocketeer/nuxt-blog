@@ -1,7 +1,7 @@
 <template>
-  <section id="intro" class="wrapper style1">
+  <section id="footer" class="wrapper style1">
     <div class="title">
-      <h1>Update Article</h1>
+      <h1>Update Audio</h1>
     </div>
     <div class="container">
       <form action method="post" enctype="multipart/form-data" @submit.prevent="addNewMusic">
@@ -35,7 +35,7 @@
                   </button>
               </li>
               <li>
-                <nuxt-link to="/audios" class="button style2">Cancel</nuxt-link>
+                <nuxt-link to="/music" class="button style2">Cancel</nuxt-link>
               </li>
             </ul>
           </div>
@@ -53,7 +53,7 @@ import axios from 'axios'
 export default {
   async asyncData(context) {
     const { data } = await context.$axios.get(
-      '/api/music/' + context.route.params._id
+      '/api/music/' + context.route.params.id
     )
     return {
       audio: data,
@@ -69,18 +69,29 @@ export default {
       dropzoneOptions: {
         url: 'https://httpbin.org/post',
         maxFiles: 1,
-        maxFilesize: 2,
+        maxFilesize: 10,
         addRemoveLinks: true,
-        acceptedFiles: '.jpg, .jpeg, .png',
-        dictDefaultMessage: `<p class='text-default'><i class='fa fa-cloud-upload mr-2'></i> Drag cover image here or click to upload</p>
-          <p class="form-text">Allowed Files: .jpg, .jpeg, .png</p>
-          <p class="form-text">Allowed Size: < 2Mb</p>
+        acceptedFiles: '.mp3',
+        dictDefaultMessage: `<p class='text-default'><i class='fa fa-cloud-upload mr-2'></i> Drag audio file here or click to upload</p>
+          <p class="form-text">Allowed Files: .mp3</p>
+          <p class="form-text">Allowed Size: < 10Mb</p>
           `,
       },
     }
   },
   components: {
     Dropzone,
+  },
+  computed: {
+    isDisabled: function() {
+      if (
+        this.title === '' ||
+        this.artist === '' ||
+        this.music === ''
+      ) {
+        return !this.isValid
+      }
+    }
   },
 
   created() {
@@ -90,7 +101,7 @@ export default {
   methods: {
     fillFormData() {
       this.title = this.audio.title
-      this.artist = this.audio.artist
+      this.artist = this.audio.artist      
     },
     async afterComplete(upload) {
       try {
@@ -108,21 +119,22 @@ export default {
       this.$nextTick(function () {
         let mockFile = this.audio.music
         let url = '/uploads/' + this.audio.music.filename
-        this.$refs.imgDropZone.manuallyAddFile(mockFile, url)
+        this.$refs.audioDropZone.manuallyAddFile(mockFile, url)
       })
     },
     addNewMusic() {
       let formData = new FormData()
       formData.append('artist', this.artist)
       formData.append('title', this.title)
-      formData.append('image', this.music)
-
+      if (this.music.upload) {
+        formData.append('music', this.music)
+      }
       this.$axios
-        .put('/api/music/' + this.$route.params._id, formData)
+        .put('/api/music/' + this.$route.params.id, formData)
         .then((response) => {
           if (response.status == 200) {
             swal('Success', 'Music updated successfully', 'success')
-            this.$router.push({ name: 'audios', params: { updated: 'yes' } })
+            this.$router.push({ name: 'music', params: { updated: 'yes' } })
           }
         })
         .catch((error) => {
@@ -130,6 +142,9 @@ export default {
           swal('Error', 'Something Went wrong', 'error')
         })
     },
+    onRemove() {
+      this.music = ''
+    }
   },
 }
 </script>

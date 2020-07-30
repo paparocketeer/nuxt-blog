@@ -11,27 +11,27 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <no-ssr>
+                  <client-only>
                     <span
                       class="spinner-border spinner-border-sm"
                       v-if="musicLoading"
                       role="status"
                       aria-hidden="true"
                     ></span>
-                  </no-ssr>
+                  </client-only>
                   <tr v-for="(music, index) in allmusic" :key="index">
                     <td>{{ index + 1 }}</td>
                     <td>{{ music.title }}</td>
                     <td>{{ music.artist }}</td>
                     <td>
                       <button class="btn btn-info" @click="deleteMusic(music._id)">Delete</button>
-                      <nuxt-link :to="'/audios/' + music._id + '/update'" class="button style2">Update</nuxt-link>
+                      <nuxt-link :to="'/music/' + music._id" class="button style2">Update</nuxt-link>
                     </td>
                   </tr>
                 </tbody>
               </table>
               <div class="row aln-center add-btn">
-                <nuxt-link to="/audios/new" class="button style2">Add New</nuxt-link>
+                <nuxt-link to="/music/new" class="button style2">Add New</nuxt-link>
               </div>
     <!-- <div class="container">
       <template v-if="$fetchState.pending">
@@ -152,12 +152,12 @@ export default {
             .$delete('/api/music/' + id)
             .then(response => {
               this.getAllMusics()
-              swal('Poof! Your Music file has been deleted!', {
+              swal('Music file has been deleted!', {
                 icon: 'success'
               })
             })
             .catch(err => {
-              swal('Error', 'Somethimg went wrong', 'error')
+              swal('Error', err.message, 'error')
             })
         } else {
           swal('Your Music file is safe!')

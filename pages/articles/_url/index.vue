@@ -157,7 +157,6 @@ export default {
       if(confirm("Are you sure?") === true){
         this.$axios.delete('/api/articles/' + this.$route.params.url)
           .then((response) => {
-            console.log(response)
             if(response.status == 200){
               swal('Success', 'Article deleted successfully', 'success')
               this.$router.push({ name:'articles', params:{ deleted:'yes' } })
