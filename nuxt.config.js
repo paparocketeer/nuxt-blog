@@ -30,14 +30,16 @@ export default {
   ** Global CSS
   */
   css: [
+    'plyr/dist/plyr.css'
   ],
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    { src: '@/plugins/sweetalert', ssr: false },
-    '@/plugins/vue-placeholders.js'  
+    '@/plugins/vue-placeholders.js',
+    '@/plugins/sweetalert.js',
+    '@/plugins/vue-plyr'
   ],
   /*
   ** Auto import components
@@ -58,7 +60,9 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@nuxt/http',
-    'bootstrap-vue/nuxt'
+    ['bootstrap-vue/nuxt', {
+      icons: true,
+    }],
   ],
   /*
   ** Server Middleware
