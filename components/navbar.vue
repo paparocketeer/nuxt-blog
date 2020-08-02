@@ -2,8 +2,7 @@
   <section id="header" class="wrapper">
     <!-- Logo -->
     <div id="logo">
-      <h1>
-        <a href="index.html">MEVN blog tryout</a>
+      <h1>MEVN tryout
       </h1>
       <p>MongoDB + Express + Vue.js + Node.js</p>
     </div>
@@ -18,7 +17,7 @@
           <nuxt-link to="/articles">Articles</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/music">Audios</nuxt-link>
+          <nuxt-link to="/music">Music</nuxt-link>
         </li>       
       </ul>
     </nav>
@@ -30,3 +29,9 @@
         
     }
 </script>
+
+<style lang="scss">
+#logo h1{
+      color: #f00;
+}
+</style>

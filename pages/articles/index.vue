@@ -66,26 +66,6 @@ export default {
       limit: 3,
     }
   },
-  head() {
-    return {
-      title: 'Articles',
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'Articles examples inside MEVN blog',
-        },
-        { hid: 'robots', name: 'robots', content: 'noindex,nofollow' },
-      ],
-    }
-  },
-  // async asyncData(context) {
-  //   let page = context.route.query.page ? context.route.query.page : 1
-  //   const { data } = await context.$axios.get(`/api/articles/p/${page}`)
-  //   return {
-  //     data,
-  //   }
-  // },
   async fetch() {
     this.posts = await this.$http.$get(
       `/api/articles/p/${this.$route.query.page}/${

@@ -1789,3 +1789,17 @@
 		min-width: unset;
 		height: unset;
 	}
+
+	ul.style2 li {
+		border-top: solid 1px #eee;
+		padding: .1em 0 0 0;
+		margin: .1em 0 0 0;
+	}
+
+	.swal-button-container {
+		button{
+			min-width: unset;
+    height: unset;
+    line-height: 2;
+		}
+	}

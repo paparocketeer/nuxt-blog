@@ -8,11 +8,6 @@
 <script>
 import navbar from '@/components/navbar.vue';
   export default {
-    head () {
-      link: [
-        {rel: 'canonical', href: `http://localhost:3000${this.$route.path}`}
-      ]
-    },
     components: {
       navbar
     }
