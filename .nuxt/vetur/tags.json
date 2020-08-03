@@ -1,0 +1,20 @@
+{
+  "Articles": {
+    "description": "Auto imported from components/articles.vue"
+  },
+  "LazyArticles": {
+    "description": "Auto imported from components/articles.vue"
+  },
+  "Music": {
+    "description": "Auto imported from components/music.vue"
+  },
+  "LazyMusic": {
+    "description": "Auto imported from components/music.vue"
+  },
+  "Navbar": {
+    "description": "Auto imported from components/navbar.vue"
+  },
+  "LazyNavbar": {
+    "description": "Auto imported from components/navbar.vue"
+  }
+}

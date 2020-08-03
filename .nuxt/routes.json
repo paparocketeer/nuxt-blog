@@ -1,0 +1,65 @@
+[
+  {
+    "name": "about",
+    "path": "/about",
+    "component": "C:\\\\vue\\\\nuxt-blog\\\\pages\\\\about.vue",
+    "chunkName": "pages/about",
+    "_name": "_85228358"
+  },
+  {
+    "name": "articles",
+    "path": "/articles",
+    "component": "C:\\\\vue\\\\nuxt-blog\\\\pages\\\\articles\\\\index.vue",
+    "chunkName": "pages/articles/index",
+    "_name": "_6172847c"
+  },
+  {
+    "name": "music",
+    "path": "/music",
+    "component": "C:\\\\vue\\\\nuxt-blog\\\\pages\\\\music\\\\index.vue",
+    "chunkName": "pages/music/index",
+    "_name": "_36fab616"
+  },
+  {
+    "name": "articles-new",
+    "path": "/articles/new",
+    "component": "C:\\\\vue\\\\nuxt-blog\\\\pages\\\\articles\\\\new.vue",
+    "chunkName": "pages/articles/new",
+    "_name": "_29756a6c"
+  },
+  {
+    "name": "music-new",
+    "path": "/music/new",
+    "component": "C:\\\\vue\\\\nuxt-blog\\\\pages\\\\music\\\\new.vue",
+    "chunkName": "pages/music/new",
+    "_name": "_20811ae4"
+  },
+  {
+    "name": "articles-url",
+    "path": "/articles/:url",
+    "component": "C:\\\\vue\\\\nuxt-blog\\\\pages\\\\articles\\\\_url\\\\index.vue",
+    "chunkName": "pages/articles/_url/index",
+    "_name": "_013a50cc"
+  },
+  {
+    "name": "music-id",
+    "path": "/music/:id",
+    "component": "C:\\\\vue\\\\nuxt-blog\\\\pages\\\\music\\\\_id.vue",
+    "chunkName": "pages/music/_id",
+    "_name": "_0ccb45fe"
+  },
+  {
+    "name": "articles-url-update",
+    "path": "/articles/:url/update",
+    "component": "C:\\\\vue\\\\nuxt-blog\\\\pages\\\\articles\\\\_url\\\\update.vue",
+    "chunkName": "pages/articles/_url/update",
+    "_name": "_2af80682"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "C:\\\\vue\\\\nuxt-blog\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_45b2cdce"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "entry": "server.js",
+  "files": {
+    "pages/about.js": "pages/about.js",
+    "pages/articles/_url/index.js": "pages/articles/_url/index.js",
+    "pages/articles/_url/update.js": "pages/articles/_url/update.js",
+    "pages/articles/index.js": "pages/articles/index.js",
+    "pages/articles/new.js": "pages/articles/new.js",
+    "pages/index.js": "pages/index.js",
+    "pages/music/_id.js": "pages/music/_id.js",
+    "pages/music/index.js": "pages/music/index.js",
+    "pages/music/new.js": "pages/music/new.js",
+    "server.js": "server.js"
+  },
+  "maps": {
+    "pages/about.js": "pages/about.js.map",
+    "pages/articles/_url/index.js": "pages/articles/_url/index.js.map",
+    "pages/articles/_url/update.js": "pages/articles/_url/update.js.map",
+    "pages/articles/index.js": "pages/articles/index.js.map",
+    "pages/articles/new.js": "pages/articles/new.js.map",
+    "pages/index.js": "pages/index.js.map",
+    "pages/music/_id.js": "pages/music/_id.js.map",
+    "pages/music/index.js": "pages/music/index.js.map",
+    "pages/music/new.js": "pages/music/new.js.map",
+    "server.js": "server.js.map"
+  }
+}
