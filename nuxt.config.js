@@ -1,4 +1,6 @@
 
+let development = process.env.NODE_ENV !== 'production'
+
 export default {
   /*
   ** Nuxt rendering mode
@@ -73,8 +75,11 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
  axios: {
-  baseURL: process.env.development ? 'http://localhost:3000' : 'https://mevn-blog.herokuapp.com/'
+  baseURL: development ? 'http://localhost:3000' : 'https://mevn-blog.herokuapp.com/'
   },
+  http: {
+    baseURL: development ? 'http://localhost:3000' : 'https://mevn-blog.herokuapp.com/'
+    },
   /*
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/
