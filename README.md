@@ -1,4 +1,7 @@
-# client
+Example Music/Blog App using MEVN stack
+Vue(Nuxt) + Mongodb(cloud) + Express + Node
+
+[Demo](https://mevn-blog.herokuapp.com/)
 
 ## Build Setup
 
